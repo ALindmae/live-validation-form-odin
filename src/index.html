@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+  </head>
+  <body>
+    <div class="content">
+      <div class="sign-up">
+        <form action="">
+          <h2 class="form__title"></h2>
+          <div class="form__controls">
+            <div class="form__field">
+              <label for="email">Email</label
+              ><input
+                type="email"
+                id="email"
+                placeholder="Enter email address"
+                required
+                minlength="3"
+                maxlength="50"
+                pattern=""
+              />
+            </div>
+            <div class="form__field">
+              <label for="country">Country</label>
+              <select id="country">
+                <option value="" disabled selected>Select a country</option>
+                <option value="AL">Albania (AL-)</option>
+                <option value="AD">Andorra (AD-)</option>
+                <option value="AT">Austria (AT-)</option>
+                <option value="BY">Belarus (BY-)</option>
+                <option value="BE">Belgium (BE-)</option>
+                <option value="BA">Bosnia and Herzegovina (BA-)</option>
+                <option value="BG">Bulgaria (BG-)</option>
+                <option value="HR">Croatia (HR-)</option>
+                <option value="CY">Cyprus (CY-)</option>
+                <option value="CZ">Czech Republic (CZ-)</option>
+                <option value="DK">Denmark (DK-)</option>
+                <option value="EE">Estonia (EE-)</option>
+                <option value="FI">Finland (FI-)</option>
+                <option value="FR">France (FR-)</option>
+                <option value="DE">Germany (DE-)</option>
+                <option value="GR">Greece (GR-)</option>
+                <option value="HU">Hungary (HU-)</option>
+                <option value="IS">Iceland (IS-)</option>
+                <option value="IE">Ireland (IE-)</option>
+                <option value="IT">Italy (IT-)</option>
+                <option value="XK">Kosovo (XK-)</option>
+                <option value="LV">Latvia (LV-)</option>
+                <option value="LI">Liechtenstein (LI-)</option>
+                <option value="LT">Lithuania (LT-)</option>
+                <option value="LU">Luxembourg (LU-)</option>
+                <option value="MT">Malta (MT-)</option>
+                <option value="MD">Moldova (MD-)</option>
+                <option value="MC">Monaco (MC-)</option>
+                <option value="ME">Montenegro (ME-)</option>
+                <option value="NL">Netherlands (NL-)</option>
+                <option value="MK">North Macedonia (MK-)</option>
+                <option value="NO">Norway (NO-)</option>
+                <option value="PL">Poland (PL-)</option>
+                <option value="PT">Portugal (PT-)</option>
+                <option value="RO">Romania (RO-)</option>
+                <option value="RU">Russia (RU-)</option>
+                <option value="SM">San Marino (SM-)</option>
+                <option value="RS">Serbia (RS-)</option>
+                <option value="SK">Slovakia (SK-)</option>
+                <option value="SI">Slovenia (SI-)</option>
+                <option value="ES">Spain (ES-)</option>
+                <option value="SE">Sweden (SE-)</option>
+                <option value="CH">Switzerland (CH-)</option>
+                <option value="UA">Ukraine (UA-)</option>
+                <option value="GB">United Kingdom (GB-)</option>
+                <option value="VA">Vatican City (VA-)</option>
+              </select>
+            </div>
+            <div class="form__field">
+              <label for="postal-code">Postal code</label
+              ><input
+                type="text"
+                id="postal-code"
+                placeholder="e.g. 90210"
+                required
+                maxlength="60"
+              />
+            </div>
+            <div class="form__field">
+              <label for="password">Password</label
+              ><input
+                type="password"
+                id="password"
+                placeholder="Type your password"
+                required
+                minlength="6"
+                maxlength="60"
+                pattern=""
+              />
+            </div>
+            <div class="form__field">
+              <label for="password-confirmation"> Confirm password</label
+              ><input
+                type="password"
+                id="password-confirmation"
+                placeholder="Re-type your password"
+                required
+              />
+            </div>
+            <button class="button form__button" type="submit">
+              Create account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
