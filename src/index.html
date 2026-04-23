@@ -8,7 +8,7 @@
   <body>
     <div class="content">
       <div class="sign-up">
-        <form action="">
+        <form novalidate action="">
           <h2 class="form__title">Sign up form</h2>
           <div class="form__controls">
             <div class="form__field">
@@ -21,12 +21,11 @@
                 required
                 minlength="3"
                 maxlength="50"
-                pattern="^(?![.])([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$"
-              />
+                pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
             </div>
             <div class="form__field">
               <label for="country">Country</label>
-              <select id="country" name="country">
+              <select id="country" name="country" required>
                 <option value="" disabled selected>Select a country</option>
                 <option value="AL">Albania (AL-)</option>
                 <option value="AD">Andorra (AD-)</option>

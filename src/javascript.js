@@ -1,23 +1,32 @@
 import "./styles.css";
 
-const errorMessages = {
-  valueMissing: "Field can't be empty",
-  tooShort: "Value is too short",
-  tooLong: "Value is too long",
-  patternMismatch: "Invalid format",
+// Configurations & constants
+const VALIDITY_KEYS = [
+  "valueMissing",
+  "tooShort",
+  "tooLong",
+  "patternMismatch",
+];
+
+const ERROR_MESSAGES = {
+  valueMissing: "Field can't be empty.",
+  tooShort: "Value is too short.",
+  tooLong: "Value is too long.",
+  patternMismatch: "Invalid format.",
 
   fields: {
     email: {
       patternMismatch:
-        "Must follow the standard format e.g. johnsmith@gmail.com",
+        "Must follow the standard format e.g. johnsmith@gmail.com.",
     },
     password: {
-      patternMismatch: "Must include 1 uppercase letter and 1 number or symbol",
+      patternMismatch:
+        "Must include 1 uppercase letter and 1 number or symbol.",
     },
   },
 };
 
-const postalCodeConstraints = {
+const POSTALCODE_CONSTRAINTS = {
   AL: {
     pattern: /^\d{4}$/,
     message: "Postal code must be 4 digits (e.g. 1001).",
@@ -200,3 +209,88 @@ const postalCodeConstraints = {
   },
   VA: { pattern: /^00120$/, message: "Postal code must be 00120." },
 };
+
+// Form validation setup (event listeners)
+const form = document.querySelector("form");
+
+form.addEventListener("input", handleLiveValidation);
+
+// Handler functions
+function handleLiveValidation(e) {
+  const form = e.currentTarget;
+  const element = e.target;
+
+  const { name, value } = element;
+
+  if (!name) return;
+
+  if (name === "postal-code")
+    return handlePostalCodeValidation({ form, element, value });
+
+  if (name === "password-confirmation")
+    return handlePasswordConfirmationValidation({ form, value, element });
+
+  element.setCustomValidity(handleGetValidityMessage({ element, name }));
+  element.reportValidity();
+
+  return;
+}
+
+function handlePasswordConfirmationValidation({ form, value, element }) {
+  const password = form.querySelector("#password")?.value;
+
+  if (!password) {
+    element.setCustomValidity("Password field is empty.");
+    element.reportValidity();
+    return;
+  }
+
+  if (password !== value) {
+    element.setCustomValidity("Password not matching.");
+    element.reportValidity();
+    return;
+  }
+
+  element.setCustomValidity("");
+  element.reportValidity();
+  return;
+}
+
+function handlePostalCodeValidation({ form, element, value }) {
+  const countryPrefix = form.querySelector("#country").value;
+
+  if (!countryPrefix) {
+    element.setCustomValidity(
+      "Please select country before filling postal code",
+    );
+    element.reportValidity();
+    return;
+  }
+  if (!POSTALCODE_CONSTRAINTS[countryPrefix].pattern.test(value)) {
+    element.setCustomValidity(POSTALCODE_CONSTRAINTS[countryPrefix].message);
+    element.reportValidity();
+  } else {
+    element.setCustomValidity("");
+  }
+  return;
+}
+
+function handleGetValidityMessage({ element, name }) {
+  const errors = getValidityErrors(element);
+
+  return getValidityMessage({ name, errors });
+}
+
+// helper functions
+function getValidityErrors(element) {
+  return VALIDITY_KEYS.filter((key) => element.validity[key]);
+}
+
+function getValidityMessage({ name, errors }) {
+  return errors
+    .map(
+      (error) =>
+        ERROR_MESSAGES.fields?.[name]?.[error] ?? ERROR_MESSAGES[error] ?? "",
+    )
+    .join(" ");
+}
