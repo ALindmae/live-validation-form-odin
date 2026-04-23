@@ -9,7 +9,7 @@
     <div class="content">
       <div class="sign-up">
         <form action="">
-          <h2 class="form__title"></h2>
+          <h2 class="form__title">Sign up form</h2>
           <div class="form__controls">
             <div class="form__field">
               <label for="email">Email</label
@@ -20,7 +20,7 @@
                 required
                 minlength="3"
                 maxlength="50"
-                pattern=""
+                pattern="^(?![.])([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+$"
               />
             </div>
             <div class="form__field">
@@ -94,11 +94,11 @@
                 required
                 minlength="6"
                 maxlength="60"
-                pattern=""
+                pattern="^(?=.*[A-Z])(?=.*[\d\W]).+$"
               />
             </div>
             <div class="form__field">
-              <label for="password-confirmation"> Confirm password</label
+              <label for="password-confirmation">Confirm password</label
               ><input
                 type="password"
                 id="password-confirmation"
