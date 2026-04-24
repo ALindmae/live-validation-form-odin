@@ -214,12 +214,32 @@ const POSTALCODE_CONSTRAINTS = {
 const form = document.querySelector("form");
 
 form.addEventListener("input", handleLiveValidation);
+form.addEventListener("submit", handleValidation);
 
 // Handler functions
+function handleValidation(e) {
+  e.preventDefault();
+  const form = e.currentTarget;
+  const inputs = [...form.querySelectorAll(".form__control")];
+
+  inputs.forEach((element) => {
+    const { name, value } = element;
+    if (name === "postal-code")
+      handlePostalCodeValidation({ form, element, value });
+    else if (name === "password-confirmation")
+      handlePasswordConfirmationValidation({ form, value, element });
+    else
+      element.setCustomValidity(
+        handleGetValidityMessage({ element, name }) || "",
+      );
+  });
+
+  form.reportValidity();
+}
+
 function handleLiveValidation(e) {
   const form = e.currentTarget;
   const element = e.target;
-
   const { name, value } = element;
 
   if (!name) return;
