@@ -8,12 +8,14 @@
   <body>
     <div class="content">
       <div class="sign-up">
-        <form novalidate action="">
+        <form class="form" novalidate action="">
           <h2 class="form__title">Sign up form</h2>
+
           <div class="form__controls">
-            <div class="form__field">
-              <label for="email">Email</label
-              ><input
+            <div class="form__item">
+              <label class="form__label" for="email">Email</label>
+              <input
+                class="form__control"
                 type="email"
                 name="email"
                 id="email"
@@ -22,10 +24,17 @@
                 minlength="3"
                 maxlength="50"
                 pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+              />
             </div>
-            <div class="form__field">
-              <label for="country">Country</label>
-              <select id="country" name="country" required>
+
+            <div class="form__item">
+              <label class="form__label" for="country">Country</label>
+              <select
+                class="form__control"
+                id="country"
+                name="country"
+                required
+              >
                 <option value="" disabled selected>Select a country</option>
                 <option value="AL">Albania (AL-)</option>
                 <option value="AD">Andorra (AD-)</option>
@@ -75,9 +84,11 @@
                 <option value="VA">Vatican City (VA-)</option>
               </select>
             </div>
-            <div class="form__field">
-              <label for="postal-code">Postal code</label
-              ><input
+
+            <div class="form__item">
+              <label class="form__label" for="postal-code">Postal code</label>
+              <input
+                class="form__control"
                 type="text"
                 name="postal-code"
                 id="postal-code"
@@ -86,9 +97,11 @@
                 maxlength="60"
               />
             </div>
-            <div class="form__field">
-              <label for="password">Password</label
-              ><input
+
+            <div class="form__item">
+              <label class="form__label" for="password">Password</label>
+              <input
+                class="form__control"
                 type="password"
                 id="password"
                 name="password"
@@ -99,9 +112,13 @@
                 pattern="^(?=.*[A-Z])(?=.*[\d\W]).+$"
               />
             </div>
-            <div class="form__field">
-              <label for="password-confirmation">Confirm password</label
-              ><input
+
+            <div class="form__item">
+              <label class="form__label" for="password-confirmation">
+                Confirm password
+              </label>
+              <input
+                class="form__control"
                 type="password"
                 name="password-confirmation"
                 id="password-confirmation"
@@ -109,7 +126,8 @@
                 required
               />
             </div>
-            <button class="button form__button" type="submit">
+
+            <button class="form__button button" type="submit">
               Create account
             </button>
           </div>

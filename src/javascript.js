@@ -225,12 +225,10 @@ function handleLiveValidation(e) {
   if (!name) return;
 
   if (name === "postal-code")
-    return handlePostalCodeValidation({ form, element, value });
-
-  if (name === "password-confirmation")
-    return handlePasswordConfirmationValidation({ form, value, element });
-
-  element.setCustomValidity(handleGetValidityMessage({ element, name }));
+    handlePostalCodeValidation({ form, element, value });
+  else if (name === "password-confirmation")
+    handlePasswordConfirmationValidation({ form, value, element });
+  else element.setCustomValidity(handleGetValidityMessage({ element, name }));
   element.reportValidity();
 
   return;
@@ -241,19 +239,13 @@ function handlePasswordConfirmationValidation({ form, value, element }) {
 
   if (!password) {
     element.setCustomValidity("Password field is empty.");
-    element.reportValidity();
     return;
   }
-
   if (password !== value) {
     element.setCustomValidity("Password not matching.");
-    element.reportValidity();
     return;
   }
-
   element.setCustomValidity("");
-  element.reportValidity();
-  return;
 }
 
 function handlePostalCodeValidation({ form, element, value }) {
@@ -263,16 +255,13 @@ function handlePostalCodeValidation({ form, element, value }) {
     element.setCustomValidity(
       "Please select country before filling postal code",
     );
-    element.reportValidity();
     return;
   }
   if (!POSTALCODE_CONSTRAINTS[countryPrefix].pattern.test(value)) {
     element.setCustomValidity(POSTALCODE_CONSTRAINTS[countryPrefix].message);
-    element.reportValidity();
   } else {
     element.setCustomValidity("");
   }
-  return;
 }
 
 function handleGetValidityMessage({ element, name }) {
