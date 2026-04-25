@@ -249,6 +249,7 @@ function handleLiveValidation(e) {
   else if (name === "password-confirmation")
     handlePasswordConfirmationValidation({ form, value, element });
   else element.setCustomValidity(handleGetValidityMessage({ element, name }));
+
   element.reportValidity();
 
   return;
