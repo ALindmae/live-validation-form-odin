@@ -12,7 +12,7 @@
           <h2 class="form__title">Sign up form</h2>
 
           <div class="form__controls">
-            <div class="form__item">
+            <div class="form__item form__item--email">
               <label class="form__label" for="email">Email</label>
               <input
                 class="form__control"
@@ -29,7 +29,7 @@
               <p id="email-error" class="form__error"></p>
             </div>
 
-            <div class="form__item">
+            <div class="form__item form__item--country">
               <label class="form__label" for="country">Country</label>
               <select
                 class="form__control"
@@ -89,7 +89,7 @@
               <p id="country-error" class="form__error"></p>
             </div>
 
-            <div class="form__item">
+            <div class="form__item form__item--postal-code">
               <label class="form__label" for="postal-code">Postal code</label>
               <input
                 class="form__control"
@@ -104,7 +104,7 @@
               <p id="postal-code-error" class="form__error"></p>
             </div>
 
-            <div class="form__item">
+            <div class="form__item form__item--password">
               <label class="form__label" for="password">Password</label>
               <input
                 class="form__control"
@@ -121,7 +121,7 @@
               <p id="password-error" class="form__error"></p>
             </div>
 
-            <div class="form__item">
+            <div class="form__item form__item--password-confirmation">
               <label class="form__label" for="password-confirmation">
                 Confirm password
               </label>
@@ -136,8 +136,10 @@
               />
               <p id="password-confirmation-error" class="form__error"></p>
             </div>
-
-            <button class="form__button button" type="submit">
+            <button
+              class="form__button button form__item--submit"
+              type="submit"
+            >
               Create account
             </button>
           </div>
