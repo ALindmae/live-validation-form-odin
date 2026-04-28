@@ -1,0 +1,13 @@
+.form__control.invalid {
+    border: 1px solid red;
+}
+
+.form__error.active {
+    visibility: block;
+}
+
+.form__error {
+    visibility: none;
+    color: red;
+    font-size: 0.9rem;
+}
