@@ -213,7 +213,7 @@ const POSTALCODE_CONSTRAINTS = {
 // Form validation setup (event listeners)
 const form = document.querySelector("form");
 
-form.addEventListener("input", handleLiveValidation);
+form.addEventListener("focusout", handleLiveValidation);
 form.addEventListener("submit", handleValidation);
 
 // Handler functions
@@ -223,66 +223,78 @@ function handleValidation(e) {
   const inputs = [...form.querySelectorAll(".form__control")];
 
   inputs.forEach((element) => {
+    let message = "";
+    const messageElement = form.querySelector(
+      `#${element.getAttribute("aria-describedby")}`,
+    );
     const { name, value } = element;
-    if (name === "postal-code")
-      handlePostalCodeValidation({ form, element, value });
-    else if (name === "password-confirmation")
-      handlePasswordConfirmationValidation({ form, value, element });
-    else
-      element.setCustomValidity(
-        handleGetValidityMessage({ element, name }) || "",
-      );
-  });
 
-  form.reportValidity();
+    if (name === "postal-code")
+      message = validatePostalCode({ form, element, value });
+    else if (name === "password-confirmation")
+      message = validatePasswordConfirmation({ form, value, element });
+    else message = handleGetValidityMessage({ element, name });
+
+    element.setCustomValidity(message || "");
+
+    messageElement.textContent = element.validationMessage;
+
+    if (!element.validity.valid) {
+      element.classList.add("invalid");
+      messageElement.classList.add("active");
+    } else {
+      messageElement.classList.add("active");
+      element.classList.remove("invalid");
+    }
+  });
 }
 
 function handleLiveValidation(e) {
   const form = e.currentTarget;
   const element = e.target;
+  const messageElement = form.querySelector(
+    `#${element.getAttribute("aria-describedby")}`,
+  );
   const { name, value } = element;
 
   if (!name) return;
 
-  if (name === "postal-code")
-    handlePostalCodeValidation({ form, element, value });
-  else if (name === "password-confirmation")
-    handlePasswordConfirmationValidation({ form, value, element });
-  else element.setCustomValidity(handleGetValidityMessage({ element, name }));
+  let message = "";
 
-  element.reportValidity();
+  if (name === "postal-code")
+    message = validatePostalCode({ form, element, value });
+  else if (name === "password-confirmation")
+    message = validatePasswordConfirmation({ form, value, element });
+  else message = handleGetValidityMessage({ element, name });
+
+  element.setCustomValidity(message || "");
+
+  messageElement.textContent = element.validationMessage;
+
+  if (!element.validity.valid) {
+    element.classList.add("invalid");
+    messageElement.classList.add("active");
+  } else {
+    element.classList.remove("invalid");
+  }
 
   return;
 }
 
-function handlePasswordConfirmationValidation({ form, value, element }) {
+function validatePasswordConfirmation({ form, value, element }) {
   const password = form.querySelector("#password")?.value;
 
-  if (!password) {
-    element.setCustomValidity("Password field is empty.");
-    return;
-  }
-  if (password !== value) {
-    element.setCustomValidity("Password not matching.");
-    return;
-  }
-  element.setCustomValidity("");
+  if (password !== value) return "Password not matching.";
+  else return "";
 }
 
-function handlePostalCodeValidation({ form, element, value }) {
+function validatePostalCode({ form, element, value }) {
   const countryPrefix = form.querySelector("#country").value;
 
-  if (!countryPrefix) {
-    element.setCustomValidity(
-      "Please select country before filling postal code",
-    );
-    return;
-  }
-  if (!POSTALCODE_CONSTRAINTS[countryPrefix].pattern.test(value)) {
-    element.setCustomValidity(POSTALCODE_CONSTRAINTS[countryPrefix].message);
-  } else {
-    element.setCustomValidity("");
-  }
+  if (!countryPrefix) return "Please select country before filling postal code";
+  if (!POSTALCODE_CONSTRAINTS[countryPrefix].pattern.test(value))
+    return POSTALCODE_CONSTRAINTS[countryPrefix].message;
+  else return "";
 }
 
 function handleGetValidityMessage({ element, name }) {
