@@ -210,105 +210,126 @@ const POSTALCODE_CONSTRAINTS = {
   VA: { pattern: /^00120$/, message: "Postal code must be 00120." },
 };
 
-// Form validation setup (event listeners)
-const form = document.querySelector("form");
+// Root
+const content = document.querySelector(".content");
 
-form.addEventListener("focusout", handleLiveValidation);
-form.addEventListener("submit", handleValidation);
+// Events
+content.addEventListener("focusout", (e) => {
+  if (e.target.closest(".sign-up-form")) handleSignUpFocusOut(e);
+});
 
-// Handler functions
-function handleValidation(e) {
+content.addEventListener("submit", (e) => {
+  if (e.target.matches(".sign-up-form")) onSignUpSubmit(e);
+});
+
+// Submit handlers
+function onSignUpSubmit(e) {
   e.preventDefault();
-  const form = e.currentTarget;
-  const inputs = [...form.querySelectorAll(".form__control")];
 
-  inputs.forEach((element) => {
-    let message = "";
-    const messageElement = form.querySelector(
-      `#${element.getAttribute("aria-describedby")}`,
-    );
-    const { name, value } = element;
+  const form = e.target;
+  const controls = [...form.querySelectorAll(".form__control")];
 
-    if (name === "postal-code")
-      message = validatePostalCode({ form, element, value });
-    else if (name === "password-confirmation")
-      message = validatePasswordConfirmation({ form, value, element });
-    else message = handleGetValidityMessage({ element, name });
-
-    element.setCustomValidity(message || "");
-
-    messageElement.textContent = element.validationMessage;
-
-    if (!element.validity.valid) {
-      element.classList.add("invalid");
-      messageElement.classList.add("active");
-    } else {
-      messageElement.classList.add("active");
-      element.classList.remove("invalid");
-    }
-  });
+  const isValid = validateForm({ form, controls });
 }
 
-function handleLiveValidation(e) {
-  const form = e.currentTarget;
-  const element = e.target;
-  const messageElement = form.querySelector(
-    `#${element.getAttribute("aria-describedby")}`,
-  );
-  const { name, value } = element;
+// Validation pipeline
+function validateForm({ form, controls }) {
+  controls.forEach((control) => {
+    const feedbackElement = form.querySelector(
+      `#${control.getAttribute("aria-describedby")}`,
+    );
 
-  if (!name) return;
+    const { name, value } = control;
 
-  let message = "";
+    const message = validateControl({
+      name,
+      value,
+      control,
+      form,
+    });
 
-  if (name === "postal-code")
-    message = validatePostalCode({ form, element, value });
-  else if (name === "password-confirmation")
-    message = validatePasswordConfirmation({ form, value, element });
-  else message = handleGetValidityMessage({ element, name });
+    control.setCustomValidity(message || "");
 
-  element.setCustomValidity(message || "");
+    updateControlUI({ control, feedbackElement });
+  });
 
-  messageElement.textContent = element.validationMessage;
+  return form.checkValidity();
+}
 
-  if (!element.validity.valid) {
-    element.classList.add("invalid");
-    messageElement.classList.add("active");
-  } else {
-    element.classList.remove("invalid");
+function validateControl({ name, value, control, form }) {
+  if (name === "postal-code") {
+    return validatePostalCode({ form, control, value });
   }
 
-  return;
+  if (name === "password-confirmation") {
+    return validatePasswordConfirmation({ form, value, control });
+  }
+
+  return handleGetValidityMessage({ control, name });
 }
 
-function validatePasswordConfirmation({ form, value, element }) {
+// UI update
+function updateControlUI({ control, feedbackElement }) {
+  if (!feedbackElement) return;
+
+  feedbackElement.textContent = control.validationMessage;
+
+  if (!control.validity.valid) {
+    control.classList.add("invalid");
+    feedbackElement.classList.add("active");
+  } else {
+    control.classList.remove("invalid");
+    feedbackElement.classList.remove("active");
+  }
+}
+
+// Focusout handler
+function handleSignUpFocusOut(e) {
+  const control = e.target.closest(".form__control");
+  if (!control) return;
+
+  const form = control.closest("form");
+
+  const feedbackElement = form.querySelector(
+    `#${control.getAttribute("aria-describedby")}`,
+  );
+
+  const { name, value } = control;
+  if (!name) return;
+
+  const message = validateControl({
+    name,
+    value,
+    control,
+    form,
+  });
+
+  control.setCustomValidity(message || "");
+
+  updateControlUI({ control, feedbackElement });
+}
+
+// Validators
+function validatePasswordConfirmation({ form, value }) {
   const password = form.querySelector("#password")?.value;
-
-  if (password !== value) return "Password not matching.";
-  else return "";
+  return password !== value ? "Password not matching." : "";
 }
 
-function validatePostalCode({ form, element, value }) {
-  const countryPrefix = form.querySelector("#country").value;
+function validatePostalCode({ form, control, value }) {
+  const country = form.querySelector("#country")?.value;
 
-  if (!countryPrefix) return "Please select country before filling postal code";
-  if (!POSTALCODE_CONSTRAINTS[countryPrefix].pattern.test(value))
-    return POSTALCODE_CONSTRAINTS[countryPrefix].message;
-  else return "";
+  if (!country) return "Please select country before filling postal code";
+
+  const rule = POSTALCODE_CONSTRAINTS[country];
+
+  if (!rule?.pattern.test(value)) return rule.message;
+
+  return "";
 }
 
-function handleGetValidityMessage({ element, name }) {
-  const errors = getValidityErrors(element);
+function handleGetValidityMessage({ control, name }) {
+  const errors = VALIDITY_KEYS.filter((key) => control.validity[key]);
 
-  return getValidityMessage({ name, errors });
-}
-
-// helper functions
-function getValidityErrors(element) {
-  return VALIDITY_KEYS.filter((key) => element.validity[key]);
-}
-
-function getValidityMessage({ name, errors }) {
   return errors
     .map(
       (error) =>
