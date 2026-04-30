@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=task_alt"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form</title>
@@ -8,138 +12,122 @@
   <body>
     <div class="content">
       <div class="sign-up">
-        <form class="form sign-up-form" novalidate action="">
+        <form class="form sign-up__form" novalidate>
           <h2 class="form__title">Sign up form</h2>
 
-          <div class="form__controls">
+          <div class="form__item-controls">
+            <!-- Email -->
             <div class="form__item form__item--email">
-              <label class="form__label" for="email">Email</label>
+              <label class="form__item-label" for="email">Email</label>
               <input
-                class="form__control"
+                class="form__item-control"
                 type="email"
                 name="email"
                 id="email"
-                aria-describedby="email-error"
                 placeholder="Enter email address"
+                aria-describedby="email-feedback"
                 required
                 minlength="3"
                 maxlength="50"
                 pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
               />
-              <p id="email-error" class="form__error"></p>
+              <p
+                id="email-feedback"
+                class="form__item-feedback"
+                aria-live="polite"
+              ></p>
             </div>
 
+            <!-- Country -->
             <div class="form__item form__item--country">
-              <label class="form__label" for="country">Country</label>
+              <label class="form__item-label" for="country">Country</label>
               <select
-                class="form__control"
+                class="form__item-control"
                 id="country"
                 name="country"
-                aria-describedby="country-error"
+                aria-describedby="country-feedback"
                 required
               >
                 <option value="" disabled selected>Select a country</option>
-                <option value="AL">Albania (AL-)</option>
-                <option value="AD">Andorra (AD-)</option>
-                <option value="AT">Austria (AT-)</option>
-                <option value="BY">Belarus (BY-)</option>
-                <option value="BE">Belgium (BE-)</option>
-                <option value="BA">Bosnia and Herzegovina (BA-)</option>
-                <option value="BG">Bulgaria (BG-)</option>
-                <option value="HR">Croatia (HR-)</option>
-                <option value="CY">Cyprus (CY-)</option>
-                <option value="CZ">Czech Republic (CZ-)</option>
-                <option value="DK">Denmark (DK-)</option>
-                <option value="EE">Estonia (EE-)</option>
-                <option value="FI">Finland (FI-)</option>
-                <option value="FR">France (FR-)</option>
-                <option value="DE">Germany (DE-)</option>
-                <option value="GR">Greece (GR-)</option>
-                <option value="HU">Hungary (HU-)</option>
-                <option value="IS">Iceland (IS-)</option>
-                <option value="IE">Ireland (IE-)</option>
-                <option value="IT">Italy (IT-)</option>
-                <option value="XK">Kosovo (XK-)</option>
-                <option value="LV">Latvia (LV-)</option>
-                <option value="LI">Liechtenstein (LI-)</option>
-                <option value="LT">Lithuania (LT-)</option>
-                <option value="LU">Luxembourg (LU-)</option>
-                <option value="MT">Malta (MT-)</option>
-                <option value="MD">Moldova (MD-)</option>
-                <option value="MC">Monaco (MC-)</option>
-                <option value="ME">Montenegro (ME-)</option>
-                <option value="NL">Netherlands (NL-)</option>
-                <option value="MK">North Macedonia (MK-)</option>
-                <option value="NO">Norway (NO-)</option>
-                <option value="PL">Poland (PL-)</option>
-                <option value="PT">Portugal (PT-)</option>
-                <option value="RO">Romania (RO-)</option>
-                <option value="RU">Russia (RU-)</option>
-                <option value="SM">San Marino (SM-)</option>
-                <option value="RS">Serbia (RS-)</option>
-                <option value="SK">Slovakia (SK-)</option>
-                <option value="SI">Slovenia (SI-)</option>
-                <option value="ES">Spain (ES-)</option>
-                <option value="SE">Sweden (SE-)</option>
-                <option value="CH">Switzerland (CH-)</option>
-                <option value="UA">Ukraine (UA-)</option>
-                <option value="GB">United Kingdom (GB-)</option>
-                <option value="VA">Vatican City (VA-)</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="ES">Spain</option>
+                <option value="IT">Italy</option>
               </select>
-              <p id="country-error" class="form__error"></p>
+              <p
+                id="country-feedback"
+                class="form__item-feedback"
+                aria-live="polite"
+              ></p>
             </div>
 
+            <!-- Postal code -->
             <div class="form__item form__item--postal-code">
-              <label class="form__label" for="postal-code"> Postal code</label>
+              <label class="form__item-label" for="postal-code">
+                Postal code
+              </label>
               <input
-                class="form__control"
+                class="form__item-control"
                 type="text"
                 name="postal-code"
                 id="postal-code"
                 placeholder="e.g. 90210"
-                aria-describedby="postal-code-error"
+                aria-describedby="postal-code-feedback"
                 required
-                maxlength="60"
+                maxlength="20"
               />
-              <p id="postal-code-error" class="form__error"></p>
+              <p
+                id="postal-code-feedback"
+                class="form__item-feedback"
+                aria-live="polite"
+              ></p>
             </div>
 
+            <!-- Password -->
             <div class="form__item form__item--password">
-              <label class="form__label" for="password">Password</label>
+              <label class="form__item-label" for="password">Password</label>
               <input
-                class="form__control"
+                class="form__item-control"
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Type your password"
-                aria-describedby="password-error"
+                aria-describedby="password-feedback"
                 required
                 minlength="6"
                 maxlength="60"
                 pattern="^(?=.*[A-Z])(?=.*[\d\W]).+$"
               />
-              <p id="password-error" class="form__error"></p>
+              <p
+                id="password-feedback"
+                class="form__item-feedback"
+                aria-live="polite"
+              ></p>
             </div>
 
+            <!-- Confirm password -->
             <div class="form__item form__item--password-confirmation">
-              <label class="form__label" for="password-confirmation">
+              <label class="form__item-label" for="password-confirmation">
                 Confirm password
               </label>
               <input
-                class="form__control"
+                class="form__item-control"
                 type="password"
                 name="password-confirmation"
                 id="password-confirmation"
                 placeholder="Re-type your password"
-                aria-describedby="password-confirmation-error"
+                aria-describedby="password-confirmation-feedback"
                 required
               />
-              <p id="password-confirmation-error" class="form__error"></p>
+              <p
+                id="password-confirmation-feedback"
+                class="form__item-feedback"
+                aria-live="polite"
+              ></p>
             </div>
-            <button
-              class="form__button button form__item--submit"
-              type="submit"
-            >
+
+            <!-- Submit -->
+            <button class="form__submit button" type="submit">
               Create account
             </button>
           </div>

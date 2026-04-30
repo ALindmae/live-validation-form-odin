@@ -210,16 +210,66 @@ const POSTALCODE_CONSTRAINTS = {
   VA: { pattern: /^00120$/, message: "Postal code must be 00120." },
 };
 
+const HTML_TEMPLATES = {
+  "account-registered-panel": `
+    <div class="account-registered">
+      <span class="material-symbols-outlined account-registered__icon">
+        task_alt
+      </span>
+      <h1 class="account-registered__title">Account created!</h1>
+      <p class="account-registered__description">Click the link in your email or enter the confirmation code below to verify your email.</p>
+      <div class="email-verification">
+        <form class="form email-verification__form">
+          <div class="email-verification__controls">
+            <div class="form__item">
+              <label class="form__item-label" for="email-verification-input">
+                Verification code
+              </label>
+
+              <input
+                id="email-verification-input"
+                class="form__item-control"
+                type="text"
+                name="verification-code"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                pattern="\d{6}"
+                maxlength="6"
+                minlength="6"
+                placeholder="Enter 6-digit verification code"
+                required
+                aria-describedby="email-verification-feedback"
+              />
+
+              <p
+                id="email-verification-feedback"
+                class="form__item-feedback"
+              >
+              </p>
+            </div>
+          </div>
+          <button type="submit" class="email-verification__submit button">Submit</button>
+        </form>
+
+        <p class="email-verification__resend">Didn't receive the email? You can try again in 2 minutes or <button class="text-link" type="button">resend it</button>.</p>
+      </div>
+    </div>
+  `,
+};
+
 // Root
 const content = document.querySelector(".content");
 
 // Events
 content.addEventListener("focusout", (e) => {
-  if (e.target.closest(".sign-up-form")) handleSignUpFocusOut(e);
+  if (e.target.closest(".sign-up__form")) handleFormFocusOut(e);
+  if (e.target.closest(".email-verification__form")) handleFormFocusOut(e);
 });
 
 content.addEventListener("submit", (e) => {
-  if (e.target.matches(".sign-up-form")) onSignUpSubmit(e);
+  if (e.target.matches(".sign-up__form")) onSignUpSubmit(e);
+  if (e.target.matches(".email-verification__form"))
+    onEmailVerificationSubmit(e);
 });
 
 // Submit handlers
@@ -227,10 +277,15 @@ function onSignUpSubmit(e) {
   e.preventDefault();
 
   const form = e.target;
-  const controls = [...form.querySelectorAll(".form__control")];
+
+  const controls = [...form.querySelectorAll(".form__item-control")];
 
   const isValid = validateForm({ form, controls });
+
+  if (isValid) renderAccountRegisteredPanel();
 }
+
+function onEmailVerificationSubmit() {}
 
 // Validation pipeline
 function validateForm({ form, controls }) {
@@ -284,8 +339,8 @@ function updateControlUI({ control, feedbackElement }) {
 }
 
 // Focusout handler
-function handleSignUpFocusOut(e) {
-  const control = e.target.closest(".form__control");
+function handleFormFocusOut(e) {
+  const control = e.target.closest(".form__item-control");
   if (!control) return;
 
   const form = control.closest("form");
@@ -336,4 +391,9 @@ function handleGetValidityMessage({ control, name }) {
         ERROR_MESSAGES.fields?.[name]?.[error] ?? ERROR_MESSAGES[error] ?? "",
     )
     .join(" ");
+}
+
+// Render
+function renderAccountRegisteredPanel() {
+  content.innerHTML = HTML_TEMPLATES["account-registered-panel"];
 }
